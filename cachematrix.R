@@ -1,15 +1,56 @@
-## Put comments here that give an overall description of what your
-## functions do
+makeVector <- function(x=numeric()){
+  
+  m<-NULL
+  set <- function(y){
+    x<<-y
+    m<<-NULL
+  }
+  get <- function()x
+  setmean <-function(mean){
+    m <<- mean
+  }
+  getmean <- function() m
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+  list(set=set, get=get, setmean=setmean, getmean=getmean)
+  
 }
 
+cacheMean<-function(x,...){
+  m<-x$getmean()
+  if(!is.null(m)){
+    message("getting cached data")
+    return(m)
+  }
+  data<-x$get()
+  m<-mean(data,...)
+  x$setmean(m)
+  m
+}
 
-## Write a short comment describing this function
+makeCacheMatrix<-function(x=matrix()){
+  inv <- NULL
+  setmatrix <- function(y){
+    x<<-y
+    inv <<- NULL
+  }
+  getmatrix <- function() x
+  setInverse<-function(inve){
+    inv<<-inve
+  }
+  getInverse <- function() inv
+  list(setmatrix=setmatrix, getmatrix=getmatrix, setInverse=setInverse, getInverse=getInverse)
+}
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+CacheSolve <-function(x=matrix(),...){
+  
+inv<-x$getInverse()
+if (!is.null(inv)){
+  message("getting the cached data")
+  return(inv)
+}
+  data<-x$getmatrix()
+  inv<-solve(data,...)
+  x$setInverse(inv)
+  inv
+  
 }
